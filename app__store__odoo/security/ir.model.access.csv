@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_app__store__odoo_app__store__odoo,app__store__odoo.app__store__odoo,model_app__store__odoo_app__store__odoo,base.group_user,1,1,1,1

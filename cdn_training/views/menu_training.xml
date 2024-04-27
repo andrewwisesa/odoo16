@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    <!-- This Menu Item will appear in the Upper bar, that's why It needs NO parent or action -->
+    <menuitem id="training_menu_root" name="training" sequence="1" web_icon="cdn_training,static/description/odoo_icon.png"/> 
+
+    <!-- This Menu Item Must have a parent -->
+    <menuitem id="training_session_menu_categ" name="Training" parent="training_menu_root" sequence="40"/>
+
+    <!-- This Menu Item Must have a parent -->
+    <menuitem id="pengaturan_menu_categ" name="pengaturan" parent="training_menu_root" sequence="50"/>
+
+    <!-- This Menu Item Must have a parent -->
+    <menuitem id="wilayah_menu_categ" name="Data Wilayah" parent="pengaturan_menu_categ" sequence="30"/>
+    
+    </data>
+    
+
+</odoo>
