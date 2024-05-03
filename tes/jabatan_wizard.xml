@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- wizard.jabatan form view -->
+        <record id="wizard_jabatan_view_form" model="ir.ui.view">
+            <field name="name">wizard.jabatan.view.form</field>
+            <field name="model">wizard.jabatan</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <group>
+                        <!-- Add your fields here -->
+                        <field name="jabatan_id"/>    
+                        <field name="pejabat_id"/>
+                    </group>
+                    <footer>
+                        <button name="update_jabatan" string="Update Jabatan" type="object" class="btn-primary"/>
+                        <button string="Batal" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- wizard.jabatan action window -->
+        <record id="wizard_jabatan_action" model="ir.actions.act_window">
+            <field name="name">Update Jabatan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.jabatan</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="jabatan_wiz_menu_act" name="Update Jabatan" parent="training_menu_root" action="wizard_jabatan_action" sequence="45"/>
+    
+        
+    
+    </data>
+    
+</odoo>

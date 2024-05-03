@@ -11,6 +11,7 @@
                 <tree>
                     <!-- Add your fields here -->
                     <field name="name"/>
+                    <field name="no_peserta"/>
                     <field name="jenis_kelamin"/>
                     <field name="street"/>
                     <field name="mobile"/>
@@ -30,14 +31,15 @@
                         <field name="image_1920" widget="image" class="oe_avatar"/>
                             <group name="peserta" string="Identitas Peserta">
                                 <group>
+                                    <field name="no_peserta"/>
                                     <field name="name"/>
-                                    <field name="jenis_kelamin" widget="radio" required="1"/>
-                                    <field name="email"/>
+                                    <field name="jenis_kelamin" widget="radio" required="1" readonly="1"/>
                                 </group>
                             <group>
                                     <field name="tmp_lahir"/>
                                     <field name="tgl_lahir"/>
                                     <field name="mobile" required="1"/>
+                                    <field name="email"/>
                                 </group>
                             </group>
                         <group name="alamat" string="Tempat Tinggal Siswa">
@@ -75,12 +77,75 @@
             </field>
         </record>
 
-        <!-- peserta action window -->
-        <record id="peserta_action" model="ir.actions.act_window">
-            <field name="name">Peserta Kursus</field>
+        <record id="peserta_view_kanban" model="ir.ui.view">
+            <field name="name">peserta.view.kanban</field>
+            <field name="model">peserta</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="jenis_kelamin"/>
+                    <field name="tmp_lahir"/>
+                    <field name="tgl_lahir"/>
+                    <field name="mobile"/>
+                    <field name="image_256"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                            <t t-if="record.image_256.raw_value">
+                            <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('peserta','image_256', record.id.raw_value)}')"/>
+                        </t>
+                        <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open"><field name="name"/></a>
+                                    </h4>
+                                    <ul>
+
+                                        <li>
+                                            <span class="text-muted">jenis Kelamin</span> <field name="jenis_kelamin"/>
+                                        </li>
+                                        <li>
+                                            <span class="text-muted">Tanggal Lahir</span> <field name="tgl_lahir"/>
+                                        </li>
+                                        <li>
+                                            <span class="text-muted">No HP</span> <field name="mobile"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- peserta action laki window -->
+        <record id="peserta_action_laki" model="ir.actions.act_window">
+            <field name="name">Peserta Kursus Laki Laki</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">peserta</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('jenis_kelamin','=','laki-laki')]</field>
+            <field name="context">{'default_jenis_kelamin':'laki-laki'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                
+                </p>
+            </field>
+        </record>
+
+
+        <!-- peserta action laki window -->
+        <record id="peserta_action_perempuan" model="ir.actions.act_window">
+            <field name="name">Peserta Kursus Perempuan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">peserta</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('jenis_kelamin','=','perempuan')]</field>
+            <field name="context">{'default_jenis_kelamin':'perempuan','default_is_menikah':True}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     <!-- Add Text Here -->
@@ -92,8 +157,10 @@
         </record>
 
         <!-- This Menu Item must have a parent and an action -->
-        <menuitem id="peserta_menu_act" name="Peserta Kursus" parent="training_session_menu_categ" action="peserta_action" sequence="10"/>
+        <menuitem id="peserta_laki_menu_act" name="Peserta Laki - Laki" parent="training_session_menu_categ" action="peserta_action_laki" sequence="5"/>
     
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="peserta_perempuan_menu_act" name="Peserta Perempuan" parent="training_session_menu_categ" action="peserta_action_perempuan" sequence="6"/>
     </data>
     
 

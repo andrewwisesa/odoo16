@@ -23,7 +23,21 @@
         <field name="model">instruktur</field>
         <field name="arch" type="xml">
             <form string="">
+            <header>
+                <button string="Update" name="action_update_jabatan" type="object" class="oe_highlight"/>
+            </header>
                 <sheet>
+                <group>
+                <field name="image_1920" widget="image" class="oe_avatar"/>
+                </group>
+                <group string="Jabatan_instruktur">
+                    <group>
+                        <field name="jabatan_id"/>
+                    </group>
+                    <group>
+                        <field name="jenis_jabatan"/>
+                    </group>
+                </group>
                 <group name="identitas" string="identitas">
                     <group>
                         <!-- Add your fields here -->
@@ -52,12 +66,56 @@
         </field>
     </record>
 
+    <record id="instruktur_view_kanban" model="ir.ui.view">
+            <field name="name">instruktur.view.kanban</field>
+            <field name="model">instruktur</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="street"/>
+                    <field name="city"/>
+                    <field name="mobile"/>
+                    <field name="keahlian_ids" widget="many2many_tags"/>
+                    <field name="image_256"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                            <t t-if="record.image_256.raw_value">
+                            <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('instruktur','image_256', record.id.raw_value)}')"/>
+                        </t>
+                        <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open"><field name="name"/></a>
+                                    </h4>
+                                    <ul>
+                                        <li>
+                                            <span class="text-muted">Alamat</span> <field name="street"/>
+                                        </li>
+                                        <li>
+                                            <span class="text-muted">Kota Asal</span> <field name="city"/>
+                                        </li>
+                                        <li>
+                                            <span class="text-muted">No HP</span> <field name="mobile"/>
+                                        </li>
+                                        <li>
+                                            <span class="text-muted">Keahlian</span> <field name="keahlian_ids"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
 <!-- instruktur action window -->
-<record id="instruktur_action" model="ir.actions.act_window">
-    <field name="name">Data Instruktur.action</field>
+    <record id="instruktur_action" model="ir.actions.act_window">
+    <field name="name">Data Instruktur</field>
     <field name="type">ir.actions.act_window</field>
     <field name="res_model">instruktur</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">tree,form,kanban</field>
     <field name="help" type="html">
         <p class="oe_view_nocontent_create">
             <!-- Add Text Here -->
@@ -66,11 +124,11 @@
         
         </p>
     </field>
-</record>
+    </record>
 
 <!-- This Menu Item must have a parent and an action -->
-<menuitem id="_menu_act_instruktur" name="Instruktur" parent="pengaturan_menu_categ" action="instruktur_action" sequence="10"/>
-</data>
+    <menuitem id="_menu_act_instruktur" name="Instruktur" parent="pengaturan_menu_categ" action="instruktur_action" sequence="10"/>
+    </data>
 
 
 </odoo>

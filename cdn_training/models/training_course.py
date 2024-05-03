@@ -1,4 +1,5 @@
 from odoo import models,fields,api
+from datetime import timedelta
 
 
 
@@ -32,8 +33,13 @@ class TrainingCourse(models.Model):
         email = fields.Char(string='Email',related='instruktur_id.email')
         jenis_kel = fields.Selection(related='instruktur_id.jenis_kelamin')
         peserta_ids = fields.Many2many(comodel_name='peserta', string='Nama Peserta')
-        jml_peserta = fields.Char(compute='_compute_jml_peserta', string='Jumlah Peserta')
+        jml_peserta = fields.Integer(compute='_compute_jml_peserta', string='Jumlah Peserta')
         state = fields.Selection(string='Status', selection=[('draft', 'Draft'), ('progress', 'Sedang Berlangsung'), ('done', 'Selesai'),],default='draft')
+        end_date = fields.Char(compute='_compute_end_date', string='end_date')
+        
+        @api.depends('')
+        def _compute_end_date(self):
+            pass
         
         name = fields.Char(string='Pokok Bahasan', required=True, tracking=True)
         course_id = fields.Many2one(comodel_name='training.course', string='Kursus', ondelete='cascade', tracking=True)
@@ -56,6 +62,17 @@ class TrainingCourse(models.Model):
         
         def action_draft(self):
             self.state = 'draft'
+
+
+        @api.depends('start_date', 'duration')
+        def _compute_end_date(self):
+            for record in self:
+                if record.start_date and record.duration:
+                    start_date = fields.Date.from_string(record.start_date)
+                    end_date = start_date + timedelta(days=record.duration)
+                    record.end_date = fields.Date.to_string(end_date)
+                else:
+                    record.end_date = False
         
         
         

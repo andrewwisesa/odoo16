@@ -3,7 +3,7 @@
 
     <data>
     <!-- This Menu Item will appear in the Upper bar, that's why It needs NO parent or action -->
-    <menuitem id="training_menu_root" name="training" sequence="1" web_icon="cdn_training,static/description/odoo_icon.png"/> 
+    <menuitem id="training_menu_root" name="training" sequence="1" web_icon="cdn_training,static/description/icon.png"/> 
 
     <!-- This Menu Item Must have a parent -->
     <menuitem id="training_session_menu_categ" name="Training" parent="training_menu_root" sequence="40"/>

@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-<!-- hospital_pantient action window -->
-<record id="hospital_pantient_action" model="ir.actions.act_window">
-    <field name="name">Pantients</field>
-    <field name="type">ir.actions.act_window</field>
-    <field name="res_model">hospital.pantient</field>
-    <field name="view_mode">tree,form</field>
-    <field name="help" type="html">
-        <p class="oe_view_nocontent_create">
-            <!-- Add Text Here -->
-        </p><p>
-            <!-- More details about what a user can do with this object will be OK --> 
-        
-        </p>
-    </field>
-</record>
-
 <!-- This Menu Item will appear in the Upper bar, that's why It needs NO parent or action -->
-<menuitem id="hospital_menu_root" name="Hospital" sequence="10"/>   
- 
-<!-- This Menu Item Must have a parent -->
-<menuitem id="menu_pantient_master" name="Pantient Details" parent="hospital_menu_root" sequence="10"/>
+<menuitem id="hospital_menu_root" web_icon="om_hospital,static\description\icon.png" name="Hospital" sequence="0"/>   
 
 <!-- This Menu Item Must have a parent -->
-<menuitem id="menu_pantient" name="Pantient" parent="menu_pantient_master" sequence="10"/>
+<menuitem id="menu_patient_master" name="Patient Details" parent="hospital_menu_root" sequence="0"/>
+
+<!-- This Menu Item Must have a parent -->
+<menuitem id="menu_appointment_master" name="Appointments" parent="hospital_menu_root" sequence="20"/>
+
+omen
 
 </odoo>
