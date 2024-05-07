@@ -25,13 +25,17 @@
             <form string="">
                 <sheet>
                     <group>
+                        <field name="image" widget="image" class="oe_avatar"/>
                         <group>
                             <field name="name"/>
-                            <field name="age"/>           
+                            <field name="date_of_birth"/>
+                            <field name="age"/>
+                            <field name="appointment_id"/>           
                         </group>
                         <group>
-                            <field name="ref"/>
-                            <field name="gender"/>   
+                            <field name="ref"/> 
+                            <field name="gender"/> 
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': '1'}"/>    
                             <field name="active" invisible="1"/>         
                         </group>
                     </group>
@@ -51,14 +55,14 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name" string="Nama Pasien" filter_domain="[']',('name','ilike', self), ('ref', 'ilike', self)]"/>
+                <field name="name" string="Name Patient" filter_domain="[']',('name','ilike', self), ('ref', 'ilike', self)]"/>
                 <field name="ref"/>
                 <field name="age"/>
                 <field name="gender"/>
                 <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
                 <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>
-                <separator/>
-                <filter name="filter_kids" string="Kids" domain="[('age', '&lt;=', 6)]"/>
+                <!-- <separator/>
+                <filter name="filter_kids" string="Kids" domain="[('age', '&lt;=', 6)]"/> -->
                 <separator/>
                 <filter name="filter_archived" string="Archived" domain="[('active', '=', False)]"/>
                 <group expand="0" string="Group By">

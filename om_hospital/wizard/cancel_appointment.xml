@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <!-- cancel.appointment.wizard form view -->
+        <record id="cancel_appointment_wizard_view_form" model="ir.ui.view">
+            <field name="name">cancel.appointment.wizard.view.form</field>
+            <field name="model">cancel.appointment.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cancel Appointment">
+                    <sheet>
+                        <group>
+                            <!-- Add your fields here -->
+                            <group>
+                                <field name="appointment_id"/>
+                                <field name="reason"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="action_cancel" string="Cancel Appointment" type="object" class="btn-primary"
+                            data-hotkey="q"/>
+                            <button special="cancel" data-hotkey="z" string="Discard" class="btn-secondary"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- cancel.appointment.wizard action window -->
+        <record id="cancel_appointment_wizard_action" model="ir.actions.act_window">
+            <field name="name">Cancel Appointment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cancel.appointment.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="menu_cancel_appointment" name="Cancellation" parent="menu_appointment_master" action="cancel_appointment_wizard_action" sequence="30"/>
+
+    </data>
+    
+
+</odoo>

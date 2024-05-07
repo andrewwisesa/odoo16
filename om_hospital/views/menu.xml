@@ -10,6 +10,9 @@
 <!-- This Menu Item Must have a parent -->
 <menuitem id="menu_appointment_master" name="Appointments" parent="hospital_menu_root" sequence="20"/>
 
-omen
+<!-- This Menu Item Must have a parent -->
+<menuitem id="menu_configuration" name="Configuration" parent="hospital_menu_root" sequence="100"/>
+
+
 
 </odoo>
