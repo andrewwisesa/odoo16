@@ -25,6 +25,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/patient_tag_data.xml',
+        'data/patient.tag.csv',
         'views/views.xml',
         'views/templates.xml',
         'views/menu.xml',
