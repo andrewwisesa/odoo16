@@ -14,5 +14,4 @@
 <menuitem id="menu_configuration" name="Configuration" parent="hospital_menu_root" sequence="30"/>
 
 
-
 </odoo>

@@ -39,10 +39,11 @@
                     states="draft"/>
                     <button string="Mark As Done" name="action_done" type="object" class="oe_highlight" data-hotkey="v"
                     states="in_consultation"/>
-                    <!-- <button string="Cancel" name="%(cancel_appointment_wizard_action)d" type="action" class="oe_highlight" data-hotkey="z"
-                    states="draft,in_consultation"/> -->
-                    <button string="Cancel" name="action_cancel" type="object" class="oe_highlight" data-hotkey="z"
+                    <button string="Cancel" name="%(cancel_appointment_wizard_action)d" type="action" class="oe_highlight" data-hotkey="z"
+                    context="{'default_reason': 'test', 'hide_appointment': 1}"
                     states="draft,in_consultation"/>
+                    <!-- <button string="Cancel" name="action_cancel" type="object" class="oe_highlight" data-hotkey="z"
+                    states="draft,in_consultation"/> -->
                     <button string="Reset To Draft" name="action_draft" type="object" class="oe_highlight" data-hotkey="r"
                     states="in_consultation"/>
                     <!-- options="{'clickable': '1'}" -->

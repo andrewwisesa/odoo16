@@ -14,3 +14,4 @@ class SaleOrder(models.Model):
         print("Success.....")
         self.confirmed_user_id = self.env.user.id 
     
+    

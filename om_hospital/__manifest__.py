@@ -26,6 +26,7 @@
         'security/ir.model.access.csv',
         'data/patient_tag_data.xml',
         'data/patient.tag.csv',
+        'data/sequence_data.xml',
         'views/views.xml',
         'views/templates.xml',
         'views/menu.xml',
@@ -33,6 +34,7 @@
         'views/female_patient_view.xml',
         'views/appointment_view.xml',
         'views/patient_tag.xml',
+        'views/odoo_playground_view.xml',
         'wizard/cancel_appointment.xml',
     ],
     # only loaded in demonstration mode
