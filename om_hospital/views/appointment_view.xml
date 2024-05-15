@@ -11,6 +11,9 @@
                 <tree decoration-success="state == 'done'" decoration-info="state == 'draft'" 
                 decoration-danger="state == 'cancel'" decoration-warning="state == 'in_consultation'" sample="1" multi_edit="1">
                     <!-- Add your fields here -->
+                    <header>
+                    <button string="In Consultation" name="action_in_consultation" type="object"/>
+                    </header>
                     <field name="patient_id"/>
                     <field name="ref" optional="show"/>
                     <field name="doctor_id" widget="many2one_avatar_user"/>
@@ -24,6 +27,16 @@
                             decoration-danger="state == 'cancel'"
                             decoration-warning="state == 'in_consultation'"  
                             widget="badge"/>
+                    <button name="action_done" type="object" class="fa fa-check btn-success" title="test"
+                    attrs="{'invisible': [('state', '!=', 'in_consultation')]}"/>
+                    <button name="%(cancel_appointment_wizard_action)d" type="action" class="fa fa-times btn-danger" title="test"
+                    context="{'default_reason': 'test', 'hide_appointment': 1}"
+                    attrs="{'invisible': [('state', 'not in', ('draft', 'in_consultation'))]}"/>
+                    <groupby name="patient_id">
+                        <!-- <button string="Click Me" name="action_test" type="object" class="oe_highlight"/>
+                        <button string="Edit" name="edit" type="edit"/> -->
+                        <button name="action_done" type="object" string="Test"/>
+                    </groupby>
                 </tree>
             </field>
         </record>
@@ -57,8 +70,8 @@
                         </div>
                         <group>
                             <group>
-                                <field name="patient_id"/>
-                                <field name="ref"/>
+                                <field name="patient_id" widget="selection"/>
+                                <field name="ref" readonly="1" force_save="1"/>
                                 <field name="gender"/>
                                 <field name="doctor_id" widget="many2one_avatar"/>
                                 <field name="booking_date" help="Date of Booking" default_focus="1"/>
@@ -144,6 +157,16 @@
                 </p>
             </field>
         </record>
+
+        <!-- <record id="action_edit" model="ir.actions.act_window">
+            <field name="name">Edit Appointment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hospital.appointment</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="target">current</field>
+        </record> -->
+
 
         <!-- This Menu Item must have a parent and an action -->
         <menuitem id="menu_appointment" name="Appointment" parent="menu_appointment_master" action="hospital_appointment_action" sequence="10"/>

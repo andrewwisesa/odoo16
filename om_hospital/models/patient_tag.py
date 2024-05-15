@@ -24,6 +24,7 @@ class PatientTag(models.Model):
         return super(PatientTag, self).copy(default)
     
     _sql_constraints = [
+        ('patient_tag_unique', 'unique (name, active)', 'Name must be unique.'),
         ('check_sequence', 'check(sequence > 0)', 'Sequence Must be non zero positive number.')
     ]
 

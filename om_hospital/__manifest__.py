@@ -35,6 +35,8 @@
         'views/appointment_view.xml',
         'views/patient_tag.xml',
         'views/odoo_playground_view.xml',
+        'views/res_config_settings.xml',
+        'views/operation.xml',
         'wizard/cancel_appointment.xml',
     ],
     # only loaded in demonstration mode

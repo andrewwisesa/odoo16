@@ -4,6 +4,7 @@ access_user_hospital_appointment,access_user_hospital_appointment,model_hospital
 access_user_appointment_pharmacy_lines,access_user_appointment_pharmacy_lines,model_appointment_pharmacy_lines,base.group_user,1,1,1,1
 access_user_patient_tag,access_user_patient_tag,model_patient_tag,base.group_user,1,1,1,1
 access_user_odoo_playground,access_user_odoo_playground,model_odoo_playground,base.group_user,1,1,1,1
+access_user_hospital_operation,access_user_hospital_operation,model_hospital_operation,base.group_user,1,1,1,1
 
 access_user_cancel_appointment_wizard,access_user_cancel_appointment_wizard,model_cancel_appointment_wizard,base.group_user,1,1,1,1
 
