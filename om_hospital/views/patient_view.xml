@@ -10,7 +10,8 @@
                 <!-- Add your fields here -->
                 <field name="name" string="Nama Pasien"/>
                 <field name="ref"/>
-                <field name="age"/>
+                <field name="age" avg="Average Age"/>
+                <field name="appointment_count" sum="Total Appointment"/>  
                 <field name="gender"/>
                 <field name="active"/>
             </tree>
@@ -24,6 +25,15 @@
         <field name="arch" type="xml">
             <form string="">
                 <sheet>
+                    <div class="alert alert-warning text-center o_form_header" role="alert" 
+                    attrs="{'invisible': [('is_birthday', '=', False)]}">
+                        <a class="close" data-dismiss="alert" href="#">x</a>
+                        <div>
+                            <strong>Today is Birthday !</strong>
+                        </div>
+                        <div>Wish <field name="name" readonly="1"/>
+                        </div>
+                    </div>
                     <field name="image" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
                         <h4>
@@ -39,7 +49,8 @@
                             <field name="date_of_birth"/>
                             <field name="age"/>
                             <field name="appointment_id"/>  
-                            <field name="appointment_count"/>         
+                            <field name="appointment_count"/>  
+                            <field name="is_birthday" invisible="1"/>       
                         </group>
                         <group>
                             <field name="ref"/> 
@@ -54,6 +65,11 @@
                             <field name="marital_status" attrs="{'invisible': [('age', '&lt;=', 18)]}"/>   
                             <field name="partner_name" attrs="{'readonly': [('marital_status', '!=', 'married')],
                             'required': [('marital_status', '=', 'married')]}"/>    
+                        </group>
+                        <group>
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="website" widget="url"/>
                         </group>
                     </group>
                 </sheet>

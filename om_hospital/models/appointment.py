@@ -1,3 +1,4 @@
+import random
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
@@ -6,6 +7,7 @@ class HospitalAppointment(models.Model):
     _inherit = 'mail.thread', 'mail.activity.mixin'
     _description = 'Hospital Appointment'
     _rec_name = 'ref'
+    _order = 'id desc'
 
     patient_id = fields.Many2one(comodel_name='hospital.patient', string='Pantient', ondelete='cascade')
     gender = fields.Selection(related='patient_id.gender')
@@ -18,8 +20,12 @@ class HospitalAppointment(models.Model):
     doctor_id = fields.Many2one(comodel_name='res.users', string='Doctor', tracking=True)
     pharmacy_line_ids = fields.One2many(comodel_name='appointment.pharmacy.lines', inverse_name='appointment_id', string='Pharmacy Lines')
     hide_sales_price = fields.Boolean(string='Hide Sales Price')
+    operation_id = fields.Many2one(comodel_name='hospital.operation', string='Operations')
+    progress = fields.Integer(string='Progress', compute='_compute_progress')
+    duration = fields.Float(string='Duration')
     
-        
+    
+
     def unlink(self):
         for rec in self:
             if self.state != 'draft':
@@ -55,6 +61,19 @@ class HospitalAppointment(models.Model):
     def action_draft(self):
         for rec in self:
             rec.state = 'draft'
+
+    @api.depends('state')
+    def _compute_progress(self):
+        for rec in self:
+            if rec.state == 'draft':
+                progress = random.randrange(0, 25)
+            elif rec.state == 'in_consultation':
+                progress = random.randrange(25, 99)
+            elif rec.state == 'done':
+                progress = 100
+            else:
+                progress = 0
+            rec.progress = progress
 
 
 

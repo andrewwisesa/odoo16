@@ -19,7 +19,7 @@ class OdooPlayground(models.Model):
     # - self.env.context: Context\n\n\n\n"""
 
     model_id = fields.Many2one(comodel_name='ir.model', string='Model')
-    code = fields.Text(string='CODE', default=DEFAULT_ENV_VARIABLES)
+    code = fields.Text(string='CODE', widget="ace" ,default=DEFAULT_ENV_VARIABLES)
     result = fields.Text(string='Result')
     
     def action_execute(self):

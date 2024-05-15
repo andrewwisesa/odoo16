@@ -23,12 +23,24 @@ class HospitalPatient(models.Model):
     parent = fields.Char(string='Parent')
     marital_status = fields.Selection(string='Marital Status', selection=[('married', 'Married'), ('single', 'Single'),], tracking=True)
     partner_name = fields.Char(string='Partner_name')
+    is_birthday = fields.Boolean(string='Birthday ?', compute='_compute_is_birthday')
+    phone = fields.Char(string='Phone')
+    email = fields.Char(string='Email')
+    website = fields.Char(string='Website')
     
     
     @api.depends('appointment_ids')
     def _compute_appointment_count(self):
-        for rec in self:
-            rec.appointment_count = self.env['hospital.appointment'].search_count([('patient_id', '=', rec.id)])
+            appointment_group = self.env['hospital.appointment'].read_group(domain=['state', '=', 'done'], fields=['patient_id'], 
+            groupby=['patient_id'])
+
+            for appointment in appointment_group:
+                patient_id = appointment.get('patient_id')[0]
+                patient_rec = self.browse('patient_id')
+                patient_rec.appointment_count = appointment['patient_id_count']
+                self -= patient_rec
+            self.appointment_count = 0
+            # rec.appointment_count = self.env['hospital.appointment'].search_count([('patient_id', '=', rec.id)])
     
     @api.constrains('date_of_birth')
     def _check_date_of_birth(self):
@@ -82,6 +94,17 @@ class HospitalPatient(models.Model):
 
     def action_done(self):
         return
+
+    @api.depends('date_of_birth')
+    def _compute_is_birthday(self):
+        for rec in self:
+            is_birthday = False
+            if rec.date_of_birth:
+                today = date.today()
+                if today.day == rec.date_of_birth.day and today.month == rec.date_of_birth.month:
+                    is_birthday = True
+            rec.is_birthday = is_birthday
+    
 
     # def action_edit(self):
     #     return {
