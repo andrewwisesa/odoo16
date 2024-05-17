@@ -9,22 +9,25 @@ class HospitalAppointment(models.Model):
     _rec_name = 'ref'
     _order = 'id desc'
 
-    patient_id = fields.Many2one(comodel_name='hospital.patient', string='Pantient', ondelete='cascade')
-    gender = fields.Selection(related='patient_id.gender')
+    name = fields.Char(string='Appointment Name')
+    patient_id = fields.Many2one(comodel_name='hospital.patient', string='Pantient', ondelete='cascade', tracking="1")
+    gender = fields.Selection(related='patient_id.gender', tracking="2")
     appointment_time = fields.Datetime(string='Appointment Time', default=fields.Datetime.now)
-    booking_date = fields.Date(string='Booking Date', default=fields.Date.context_today)
-    ref = fields.Char(string='Reference', help="Reference from patient record") 
+    booking_date = fields.Date(string='Booking Date', default=fields.Date.context_today, tracking="3")
+    ref = fields.Char(string='Reference', help="Reference from patient record", tracking="4") 
     prescription = fields.Html(string='Prescription')
     priority = fields.Selection(string='Priority', selection=[('0', 'Normal'), ('1', 'Low'), ('2', 'High'), ('3', 'Very High'),])
     state = fields.Selection(string='Status', selection=[('draft', 'Draft'), ('in_consultation', 'In Consultation'), ('done', 'Done'), ('cancel', 'Cancel')], default='draft', required=True)
-    doctor_id = fields.Many2one(comodel_name='res.users', string='Doctor', tracking=True)
+    doctor_id = fields.Many2one(comodel_name='res.users', string='Doctor', tracking="5")
     pharmacy_line_ids = fields.One2many(comodel_name='appointment.pharmacy.lines', inverse_name='appointment_id', string='Pharmacy Lines')
     hide_sales_price = fields.Boolean(string='Hide Sales Price')
     operation_id = fields.Many2one(comodel_name='hospital.operation', string='Operations')
     progress = fields.Integer(string='Progress', compute='_compute_progress')
     duration = fields.Float(string='Duration')
-    
-    
+    company_id = fields.Many2one(comodel_name='res.company', string='Company', default=lambda self: self.env.company)
+    currency_id = fields.Many2one(comodel_name='res.currency', related='company_id.currency_id')
+
+
 
     def unlink(self):
         for rec in self:
@@ -87,6 +90,13 @@ class AppointmentPharmacyLines(models.Model):
     price_unit = fields.Float(related='product_id.list_price')
     qty = fields.Integer(string='Quantity', default="1")
     appointment_id = fields.Many2one(comodel_name='hospital.appointment', inverse_name='pharmacy_line_ids', string='Appointment')
+    currency_id = fields.Many2one(comodel_name='res.currency', related='appointment_id.currency_id')
+    price_subtotal = fields.Monetary('Subtotal', compute='_compute_price_subtotal', currency_field="currency_id")
+
+    @api.depends('price_unit', 'qty')
+    def _compute_price_subtotal(self):
+        for rec in self:
+            rec.price_subtotal = rec.price_unit * rec.qty
 
     
     

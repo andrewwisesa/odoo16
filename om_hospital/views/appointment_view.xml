@@ -24,7 +24,7 @@
                 <calendar string="Appointment" date_start="booking_date" mode="month" 
                 date_delay="duration" color="state" quick_add="False" hide_time="True" event_open_popup="True"
                 form_view_id="%(om_hospital.hospital_appointment_view_form)d">
-                    <field name="patient_id"/>
+                    <field name="patient_id" filters="1" avatar_field="image"/>
                     <field name="state" filters="1" invisible="1"/>
                 </calendar>
             </field>
@@ -41,6 +41,7 @@
                     <header>
                     <button string="In Consultation" name="action_in_consultation" type="object"/>
                     </header>
+                    <field name="id"/>
                     <field name="patient_id"/>
                     <field name="ref" optional="show"/>
                     <field name="doctor_id" widget="many2one_avatar_user"/>
@@ -98,15 +99,19 @@
                         </div>
                         <group>
                             <group>
+                                <field name="name"/>
                                 <field name="patient_id" widget="selection"/>
                                 <field name="ref" readonly="1" force_save="1"/>
                                 <field name="gender"/>
                                 <field name="doctor_id" widget="many2one_avatar"/>
                                 <field name="duration"/>
                                 <field name="booking_date" help="Date of Booking" default_focus="1"/>
+                                <field name="operation_id"/>
                             </group>
                             <group>
                                 <field name="hide_sales_price"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="currency_id" groups="base.group_multi_company"/>
                                 <field name="appointment_time"/>
                                 <button string="Test Button" help="message will be printed in the log" groups="base.group_no_one"
                                     confirm="Are you sure to execute python code ?"
@@ -132,8 +137,11 @@
                                 <field name="pharmacy_line_ids">
                                 <tree editable="bottom">
                                     <field name="product_id"/>
-                                    <field name="price_unit" attrs="{'column_invisible': [('parent.hide_sales_price', '=', True)]}"/>
+                                    <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}"
+                                    attrs="{'column_invisible': [('parent.hide_sales_price', '=', True)]}"/>
                                     <field name="qty"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="price_subtotal"/>
                                 </tree>
                                     <form>
                                         <group>

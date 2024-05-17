@@ -25,6 +25,11 @@
         <field name="arch" type="xml">
             <form string="">
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="hospital_appointment_action" type="object" icon="fa-star">
+                            <field name="appointment_count" string="Appointment" widget="statinfo"/>
+                        </button>
+                    </div>
                     <div class="alert alert-warning text-center o_form_header" role="alert" 
                     attrs="{'invisible': [('is_birthday', '=', False)]}">
                         <a class="close" data-dismiss="alert" href="#">x</a>

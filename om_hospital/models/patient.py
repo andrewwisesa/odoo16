@@ -18,7 +18,7 @@ class HospitalPatient(models.Model):
     appointment_id = fields.Many2one(comodel_name='hospital.appointment', string='Patient')
     image = fields.Image(string="Image")
     tag_ids = fields.Many2many(comodel_name='patient.tag', string='Tags')
-    appointment_count = fields.Integer(string='Appointment Count', compute='_compute_appointment_count', store=True)
+    appointment_count = fields.Integer(string='Appointment Count', compute='_compute_appointment_count')
     appointment_ids = fields.One2many(comodel_name='hospital.appointment', inverse_name='patient_id', string='Appointments')
     parent = fields.Char(string='Parent')
     marital_status = fields.Selection(string='Marital Status', selection=[('married', 'Married'), ('single', 'Single'),], tracking=True)
@@ -31,12 +31,12 @@ class HospitalPatient(models.Model):
     
     @api.depends('appointment_ids')
     def _compute_appointment_count(self):
-            appointment_group = self.env['hospital.appointment'].read_group(domain=['state', '=', 'done'], fields=['patient_id'], 
+            appointment_group = self.env['hospital.appointment'].read_group(domain=[], fields=['patient_id'], 
             groupby=['patient_id'])
 
             for appointment in appointment_group:
                 patient_id = appointment.get('patient_id')[0]
-                patient_rec = self.browse('patient_id')
+                patient_rec = self.browse(patient_id)
                 patient_rec.appointment_count = appointment['patient_id_count']
                 self -= patient_rec
             self.appointment_count = 0
@@ -105,6 +105,16 @@ class HospitalPatient(models.Model):
                     is_birthday = True
             rec.is_birthday = is_birthday
     
+    def hospital_appointment_action(self):
+        return {
+            'name': _('Appointments'),
+            'res_model': 'hospital.appointment',
+            'view_mode': 'list,form,calendar,activity',
+            'context': {'default_patient_id': self.id},
+            'domain': [('patient_id', '=', self.id)],
+            'target': 'current',
+            'type': 'ir.actions.act_window',
+        }
 
     # def action_edit(self):
     #     return {

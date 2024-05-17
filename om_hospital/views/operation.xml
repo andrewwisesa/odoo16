@@ -10,6 +10,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <!-- Add your fields here -->
+                    <field name="sequence" widget="handle"/>
                     <field name="operation_name"/>
                     <field name="doctor_id"/>
                 </tree>
@@ -26,6 +27,7 @@
                         <group>
                             <!-- Add your fields here -->
                             <group>
+                                <field name="sequence"/>
                                 <field name="operation_name"/>
                                 <field name="doctor_id"/>
                             </group>
